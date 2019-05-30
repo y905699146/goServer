@@ -3,9 +3,7 @@ package main
 import (
 	"fmt"
 	"net"
-	stProto "pb"
-
-	"github.com/gogo/protobuf/proto"
+	"pb"
 )
 
 func main() {
@@ -35,7 +33,7 @@ func readMessage(conn net.Conn) {
 			continue
 		}
 
-		stReceive := &stProto.UserInfo{}
+		stReceive := &pb.UserInfo{}
 		fmt.Println(cnt, buf[0:2])
 		for len < cnt {
 			res1 := int(buf[len+1])
