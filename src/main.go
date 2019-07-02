@@ -4,23 +4,8 @@ import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
 	pb "goServer/src/pb"
-	log "github.com/sirupsen/logrus"
 	"net"
-	"os"
-	"syscall"
 )
-var(
-	log = log.New()
-)
-
-func init(){
-	//设置输出样式，自带的只有两种样式logrus.JSONFormatter{}和logrus.TextFormatter{}
-	log.SetFormatter(&logrus.JSONFormatter{})
-	//设置output,默认为stderr,可以为任何io.Writer，比如文件*os.File
-	log.SetOutput(os.Stdout)
-	//设置最低loglevel
-	log.SetLevel(logrus.InfoLevel)
-}
 
 type Conn struct{
 	conn *net.TCPConn
@@ -28,28 +13,24 @@ type Conn struct{
 func (c *Conn) ok() bool{ return c!=nil && c.conn !=nil }
 
 func(c *Conn) Write(b []byte)(int,error){
-	if !c.ok(){
-		return 0,syscall.EINVAL
-	}
+
 	n,err:=c.conn.Write(b)
 	if err!=nil{
-
+		fmt.Println("EEROR ,",err)
 	}
 	if n>0{
-
+		return n,nil
 	}
+	return 0,nil
+}
+
+func(c *Conn) Read(b []byte)(int,error){
+	n, err := c.conn.Read(b)
+
+	return n, err
 }
 
 func main() {
-	file, err := os.OpenFile("logrus.log", os.O_CREATE|os.O_WRONLY, 0666)
-	if err == nil {
-		log.Out = file
-	} else {
-		log.Info("Failed to log to file, using default stderr")
-	}
-	log.WithFields(logrus.Fields{
-		"filename": "123.txt",
-	}).Info("打开文件失败")
 
 	listener, err := net.Listen("tcp", "localhost:6600")
 	if err != nil {
