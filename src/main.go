@@ -4,31 +4,9 @@ import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
 	pb "goServer/src/pb"
+	"goServer/src/room"
 	"net"
 )
-
-type Conn struct{
-	conn *net.TCPConn
-}
-func (c *Conn) ok() bool{ return c!=nil && c.conn !=nil }
-
-func(c *Conn) Write(b []byte)(int,error){
-
-	n,err:=c.conn.Write(b)
-	if err!=nil{
-		fmt.Println("EEROR ,",err)
-	}
-	if n>0{
-		return n,nil
-	}
-	return 0,nil
-}
-
-func(c *Conn) Read(b []byte)(int,error){
-	n, err := c.conn.Read(b)
-
-	return n, err
-}
 
 func main() {
 
@@ -36,8 +14,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	r  :=room.CreateRoom()
 	for {
 		conn, err := listener.Accept()
+		pl :=room.CreateConn(conn)
+		r.AddConn(pl)
 		if err != nil {
 			panic(err)
 		}
