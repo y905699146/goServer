@@ -21,3 +21,7 @@ func CreateConn(c net.Conn) *TcpConn{
 	count +=1
 	tc.remoteAddr = tc.conn.RemoteAddr()
 }
+
+func ReadMessage() {
+	
+}
