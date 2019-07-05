@@ -20,6 +20,7 @@ func CreateConn(c net.Conn) *TcpConn{
 	tc.conn = c
 	count +=1
 	tc.remoteAddr = tc.conn.RemoteAddr()
+	return tc
 }
 
 func ReadMessage() {
