@@ -1,7 +1,5 @@
 package room
 
-import "net"
-
 type Room struct {
 	room []*TcpConn
 }
