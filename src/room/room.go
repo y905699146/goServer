@@ -31,5 +31,6 @@ func (c *Room)BroadCast(id uint64,str string) error{
 			v.conn.Write([]byte(str))
 		}
 	}
+	return nil
 }
 
