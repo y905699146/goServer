@@ -4,6 +4,11 @@ import (
 	"net"
 )
 
-type Connection struct {
-	*net.TCPConn
+type Connection interface{
+	ReadMsg()([]byte,error)
+	WriterMsg(arg ...[]byte) error
+	LocalAddr() net.Addr
+	RemoteAddr() net.Addr
+	Close()
+	Destroy()
 }

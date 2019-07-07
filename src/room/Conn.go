@@ -5,12 +5,14 @@ import (
 	"github.com/golang/protobuf/proto"
 	"net"
 	pb "goServer/src/pb"
+	"sync"
 )
 var(
 	count uint64
 )
 
 type TcpConn struct{
+	sync.Mutex
 	connid uint64
 	remoteAddr net.Addr
 	conn net.Conn
@@ -55,4 +57,9 @@ func (c *TcpConn)ReadMessage() {
 
 func (c *TcpConn)Close(){
 	c.conn.Close()
+}
+
+func (c *TcpConn)Destroy(){
+	c.Lock()
+	defer c.Unlock()
 }
