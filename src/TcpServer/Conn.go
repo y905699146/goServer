@@ -1,4 +1,4 @@
-package room
+package TcpServer
 
 import (
 	"fmt"
@@ -49,7 +49,7 @@ func (c *TcpConn) InitTcpConn() {
 
 func (c *TcpConn) run() {
 	//var tempDelay time.Duration
-	r := CreateRoom()
+	r := CreateTcpServer()
 	for {
 		conn, err := c.listener.Accept()
 		if err != nil {
